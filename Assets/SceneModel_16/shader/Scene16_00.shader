@@ -44,7 +44,7 @@
 			float _Distortion;
 			sampler2D _RefractionTex;
 			float4 _RefractionTex_ST;
-			float4 _RefractionTex_TexelSize;
+			float4 _RefractionTex_TexelSize;//屏幕的纹素大小
 
 			struct a2v {
 				float4 vertex : POSITION;
@@ -71,13 +71,13 @@
 				o.uv.zw = TRANSFORM_TEX(v.texcoord,_BumpMap);
 
 				float3 worldPos = mul(unity_ObjectToWorld,v.vertex);
-				float3 worldNormal = UnityObjectToWorldNormal(v.vertex);
+				float3 worldNormal = UnityObjectToWorldNormal(v.normal);
 				float3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);
 				float3 worldbinormal = cross(worldNormal,worldTangent)*v.tangent.w;
 				//计算从切线坐标系换到世界坐标系的矩阵
-				o.TtoW0 = float4(worldTangent.x,worldNormal.x,worldbinormal.x,worldPos.x);
-				o.TtoW1 = float4(worldTangent.y,worldNormal.y,worldbinormal.y,worldPos.y);
-				o.TtoW2 = float4(worldTangent.z,worldNormal.z,worldbinormal.z,worldPos.z);
+				o.TtoW0 = float4(worldTangent.x, worldbinormal.x, worldNormal.x, worldPos.x);
+				o.TtoW1 = float4(worldTangent.y, worldbinormal.y, worldNormal.y, worldPos.y);
+				o.TtoW2 = float4(worldTangent.z, worldbinormal.z, worldNormal.z, worldPos.z);
 
 				return o;
 			}
@@ -86,10 +86,11 @@
 			{
 				float3 worldPos = float3(i.TtoW0.w,i.TtoW1.w,i.TtoW2.w);
 				float worldViewDir = normalize(UnityWorldSpaceViewDir(worldPos));
-				float3 bump = UnpackNormal(tex2D(_BumpMap,i.uv.zw));//接触法线纹理
+				float3 bump = UnpackNormal(tex2D(_BumpMap,i.uv.zw));//切线空间的法线纹理
 				float2 offset = bump.xy * _Distortion * _RefractionTex_TexelSize.xy;
 				i.scrPos.xy = offset * i.scrPos.z + i.scrPos.xy;
 				fixed3 refrCol = tex2D(_RefractionTex, i.scrPos.xy/i.scrPos.w).rgb;
+				//拿到世界坐标的法线坐标
 				bump = normalize(half3(dot(i.TtoW0.xyz, bump), dot(i.TtoW1.xyz, bump), dot(i.TtoW2.xyz, bump)));
 				fixed3 reflDir = reflect(-worldViewDir, bump);
 				fixed4 texColor = tex2D(_MainTex, i.uv.xy);

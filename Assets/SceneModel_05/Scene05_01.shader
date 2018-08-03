@@ -55,4 +55,5 @@ Shader "ZDH/Scene05_01" {
 			ENDCG
 		}
 	}
+	Fallback "Transparent/Cutout/VertexLit"
 }
