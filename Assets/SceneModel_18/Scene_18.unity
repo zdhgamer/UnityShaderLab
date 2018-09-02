@@ -442,7 +442,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 1f2e21f49ae1e4d48859f79b4763912c, type: 2}
-  speed: 0.2
+  speed: 0.19
 --- !u!1 &1868055784
 GameObject:
   m_ObjectHideFlags: 0
