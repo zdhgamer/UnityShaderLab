@@ -49,7 +49,7 @@
 
 				float2 uv = data.uv- float2(0.5,0.5);
 				float2 rotate = float2(cos(_RotateSpeed*_Time.x),sin(_RotateSpeed*_Time.x));
-				uv = float2(uv.x*rotate.x -uv.y*rotate.y,uv.x*rotate.y+uv.y*rotate.x);
+				uv = float2(uv.x*rotate.x +uv.y*rotate.y,-uv.x*rotate.y+uv.y*rotate.x);
 				uv+=float2(0.5,0.5);
 				half4 c = tex2D(_MainTex,uv.xy) * _Color *_AlphaValue;
 				return c;

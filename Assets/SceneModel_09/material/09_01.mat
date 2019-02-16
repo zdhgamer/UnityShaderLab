@@ -4,7 +4,7 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: 09_01
   m_Shader: {fileID: 4800000, guid: d900d411a771c3e4796ac6c1f66c42f0, type: 3}
@@ -71,7 +71,7 @@ Material:
     - _RotateSpeed: 30
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _Speed: 61
+    - _Speed: 33
     - _SrcBlend: 1
     - _UVSec: 0
     - _VerticalAmount: 8

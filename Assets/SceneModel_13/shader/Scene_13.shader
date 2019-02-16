@@ -37,6 +37,7 @@
                 #include "UnityCG.cginc"
 
                 sampler2D _MainTex;
+                fixed4 _MainTex_ST;
                 fixed4 _Color;
                 fixed4 _FlowlightColor;
                 float _Power;
@@ -62,7 +63,7 @@
                 {
                     v2f OUT;
                     OUT.vertex = UnityObjectToClipPos(IN.vertex);
-                    OUT.texcoord = IN.texcoord;
+                    OUT.texcoord = TRANSFORM_TEX(IN.texcoord,_MainTex);
                     OUT.texflowlight = TRANSFORM_TEX(IN.texcoord, _FlowlightTex);
                     OUT.texflowlight.x += _Time * _SpeedX;
                     OUT.texflowlight.y += _Time * _SpeedY;

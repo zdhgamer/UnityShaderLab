@@ -4,7 +4,7 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: SceneModel_05
   m_Shader: {fileID: 4800000, guid: 4f93beb99bd98de4aa805fcedd9563fa, type: 3}
@@ -69,7 +69,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _CutOut: 0.54
-    - _Cutoff: 0.48
+    - _Cutoff: 0.66
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _FloatValue: 0.5

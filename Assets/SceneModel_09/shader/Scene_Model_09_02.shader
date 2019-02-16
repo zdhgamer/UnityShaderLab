@@ -41,8 +41,8 @@
 				v2f o;
 				o.pos = UnityObjectToClipPos(v.vertex);
 				
-				o.uv.xy = TRANSFORM_TEX(v.texcoord, _MainTex) + frac(float2(_ScrollX, 0.0) * _Time.y);//取小数部分
-				o.uv.zw = TRANSFORM_TEX(v.texcoord, _DetailTex) + frac(float2(_Scroll2X, 0.0) * _Time.y);
+				o.uv.xy = TRANSFORM_TEX(v.texcoord, _MainTex) + float2(_ScrollX, 0.0) * _Time.y;
+				o.uv.zw = TRANSFORM_TEX(v.texcoord, _DetailTex) + float2(_Scroll2X, 0.0) * _Time.y;
 				
 				return o;
 			}
