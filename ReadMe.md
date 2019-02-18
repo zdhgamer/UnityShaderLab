@@ -458,3 +458,61 @@ clip(clipColor.r - _ClipAmount);
  `
  代码中target为遮罩下层所需要高亮的。  
  UI事件的射线检测结果取反，这样就可以在target区域中，射线穿透遮罩，触发target。
+
+
+ # SceneModel_22 酷跑游戏跑道倾斜shader
+  ![avatar](doc/16.png)
+ 关键点：    
+`
+v2f vert(appdata_full v){
+	v2f o;
+	float4 vPos = mul(UNITY_MATRIX_MV,v.vertex);
+	float zOff = vPos.z/_What;
+	vPos += float4(-15,0,0,0)*zOff*zOff;
+	o.pos = mul(UNITY_MATRIX_P,vPos);
+	o.uv = v.texcoord;
+	return o;
+}
+`
+分析：在视角坐标系下，将一个轴向的顶点进行偏移，然后将偏移后的顶点转到裁剪空间下，就完成了。
+
+第二种做法：
+`
+v2f vert(appdata v)
+{
+	v2f o;  
+	float _Horizon = 100.0f;  
+	float _FadeDist = 50.0f;  
+	o.vertex = UnityObjectToClipPos(v.vertex);  
+	float dist = UNITY_Z_0_FAR_FROM_CLIPSPACE(o.vertex.z);
+	o.vertex.y += _CurveStrength * dist * dist;
+	o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+	o.color = v.color;
+	UNITY_TRANSFER_FOG(o, o.vertex);
+	return o;
+}
+`
+
+分析：先将点转换到裁剪空间下，然后计算顶点到摄像机远裁剪面的距离，距离越远，偏移量越大。
+
+# 简单雪覆盖shader
+
+![avater](doc/17.png)
+
+`
+
+	v2f vert(appdata_full data){
+		v2f o;
+		o.pos = UnityObjectToClipPos(data.vertex);
+		o.uvMainTexture = TRANSFORM_TEX(data.texcoord,_MainTex);
+		o.snowColor = step(1-_SnowStep,data.normal.y)*fixed4(1,1,1,1);
+		return o;
+	}
+
+	fixed4 frag(v2f v):SV_TARGET{
+		fixed4 color = tex2D(_MainTex,v.uvMainTexture) + v.snowColor;
+		return color;
+	}
+
+`
+分析：使用step函数，比较向上的法线值，也就是normal.y,然后将颜色改为白色，最后在片段着色器中将颜色混合。  
